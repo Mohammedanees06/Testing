@@ -4,9 +4,8 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://host.docker.internal:27017/todoappss', {
-    useNewUrlParser: true,
-   
+ await mongoose.connect('mongodb://127.0.0.1:27017/todoappss', {
+  useNewUrlParser: true,
 });
     console.log(" MongoDB connected");
   } catch (err) {
