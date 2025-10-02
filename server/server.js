@@ -32,10 +32,9 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // React routing fallback (must be last!)
-app.get('/:path(*)', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
-
 
 
 app.listen(PORT, () => {
