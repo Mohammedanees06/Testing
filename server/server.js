@@ -32,8 +32,8 @@ const __dirname = path.dirname(__filename);  // Fixed: double underscores
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // React routing fallback (must be last!)
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));  // Fixed: consistent path
+app.get('/:path(*)', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
