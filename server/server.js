@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRoutes.js';
 import todoRoutes from './routes/todoRoutes.js';
 import connectDB from './config/config.js';
@@ -17,19 +19,23 @@ app.use(express.json());
 
 await connectDB();
 
-
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/todos', todoRoutes);
-
-
 app.use("/api/admin", adminRoutes);
-
 app.use("/api/users", userRoutes);
 
+// Serve frontend
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
-
+// For React routing, serve index.html for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 app.listen(PORT, () => {
-  console.log(` Server is running on port ${PORT}`);
-  console.log(` http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Frontend + Backend: http://localhost:${PORT}`);
 });
