@@ -20,21 +20,22 @@ app.use(express.json());
 await connectDB();
 
 // API routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/todos', todoRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/users", userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/users', userRoutes);
 
-// Serve frontend
+// Serve frontend static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-
-// For React routing, serve index.html for all other routes
-app.get('/*', (req, res) => {
+// React routing fallback (must be last!)
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
+
 
 
 app.listen(PORT, () => {
